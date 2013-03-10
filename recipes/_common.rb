@@ -18,15 +18,23 @@
 
 # Needed to install Python packages
 include_recipe "python::pip"
+include_recipe "user"
 
 # Add user and group for Buildbot
 group node['buildbot']['group']
 
-user node['buildbot']['user'] do
-  comment "Buildbot user"
+# Create user with a home directory, preset .ssh/authorized_keys, and a
+# generated .ssh/id_rsa. In order to enable buildbot masters and slaves to
+# access a private repository, the public key for each master and slave will
+# need to registered as a deploy key with the repository.
+user_account node['buildbot']['user'] do
+  comment "Buildbot user."
+  ssh_keys node['buildbot']['authorized_keys']
+  system_user true
+  manage_home true
+  ssh_keygen true
   gid node['buildbot']['group']
-  system true
-  shell "/bin/false"
+  action :create
 end
 
 # Install the system's dependencies

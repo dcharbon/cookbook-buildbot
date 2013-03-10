@@ -39,6 +39,8 @@ default['buildbot']['slave']['admin'] = 'Your Name Here <admin@youraddress.inval
 default['buildbot']['slave']['host_info'] = ''
 default['buildbot']['slave']['packages'] = [ 'make' ]
 
+default['buildbot']['authorized_keys'] = nil
+
 # Info for the master. This is for the case when it is deployed with chef-solo
 # One Master and one Slave.
 # For Chef Server it should be discovered by searching
